@@ -16,20 +16,28 @@ abstract class BaseNetworkManager {
 class NetworkManager implements BaseNetworkManager {
   final dio = Dio();
 
+  NetworkManager() {
+    dio.interceptors.add(LogInterceptor(
+        request: true,
+        error: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: true,
+        requestHeader: true));
+  }
+
   @override
   Future<Response> executeGetRequest(String endPointPath,
       {dynamic headers}) async {
     try {
-      final response = await dio.get(ApiConstants.baseUrl + endPointPath);
-      print(response.data);
-      if(response.statusCode == ApiStatus.success.value){
+      final response = await dio.get(endPointPath);
+      if (response.statusCode == ApiStatus.success.value) {
         return response;
-      }else{
-        throw Failure(AppStrings.apiFailureMessage);
+      } else {
+        throw ServerFailure(AppStrings.apiFailureMessage);
       }
-
-    } catch (error) {
-      throw Failure(error.toString());
+    } on DioException catch (error) {
+      throw ServerFailure(error.message.toString());
     }
   }
 
@@ -38,16 +46,14 @@ class NetworkManager implements BaseNetworkManager {
       String endPointPath, headers, body) async {
     try {
       final response =
-          await dio.post(ApiConstants.baseUrl + endPointPath, data: body);
-      print(response.data);
-      if(response.statusCode == ApiStatus.success.value){
+          await dio.post(endPointPath, data: body);
+      if (response.statusCode == ApiStatus.success.value) {
         return response;
-      }else{
-        throw Failure(AppStrings.apiFailureMessage);
+      } else {
+        throw ServerFailure(AppStrings.apiFailureMessage);
       }
-
     } catch (error) {
-      throw Failure(error.toString());
+      throw ServerFailure(error.toString());
     }
   }
 }
