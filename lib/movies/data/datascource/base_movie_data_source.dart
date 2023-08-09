@@ -13,7 +13,7 @@ class MovieDataSource implements BaseMovieDataSource {
     try {
       final response = await NetworkManager()
           .executeGetRequest(MovieUrls.movieNowPlayingUrl);
-      return nowPlayingMoviesFromJson(response.data);
+      return NowPlayingMoviesModel.fromJson(response.data);
     } on ServerFailure catch (error) {
       throw ServerFailure(error.message);
     }

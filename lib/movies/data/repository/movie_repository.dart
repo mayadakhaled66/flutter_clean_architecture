@@ -5,14 +5,14 @@ import 'package:flutter_clean_archticture/movies/domain/entities/now_playing_mov
 import 'package:flutter_clean_archticture/movies/domain/repository/base_movie_repository.dart';
 
 class MovieRepository implements BaseMovieRepository {
-  BaseMovieDataSource baseMovieDataSource;
+  final BaseMovieDataSource _baseMovieDataSource;
 
-  MovieRepository(this.baseMovieDataSource);
+  MovieRepository(this._baseMovieDataSource);
 
   @override
   Future<Either<Failure, NowPlayingMovies>> getNowPlayingMovies() async {
     try {
-      final model = await baseMovieDataSource.getNowPlaying();
+      final model = await _baseMovieDataSource.getNowPlaying();
       return Right(model);
     } on ServerFailure catch (error) {
       return Left(error);
