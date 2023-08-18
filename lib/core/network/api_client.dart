@@ -30,7 +30,7 @@ class NetworkManager implements BaseNetworkManager {
   Future<Response> executeGetRequest(String endPointPath,
       {dynamic headers}) async {
     try {
-      final response = await dio.get(endPointPath);
+      final response = await dio.get(endPointPath,options: Options(sendTimeout: const Duration(seconds: 10),receiveTimeout: const Duration(seconds: 10) ));
       if (response.statusCode == ApiStatus.success.value) {
         return response;
       } else {
@@ -38,6 +38,8 @@ class NetworkManager implements BaseNetworkManager {
       }
     } on DioException catch (error) {
       throw ServerFailure(error.message.toString());
+    } on Exception catch (error){
+      throw ServerFailure(error.toString());
     }
   }
 

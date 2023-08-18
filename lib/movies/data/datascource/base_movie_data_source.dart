@@ -15,7 +15,7 @@ class MovieDataSource implements BaseMovieDataSource {
           .executeGetRequest(MovieUrls.movieNowPlayingUrl);
       return NowPlayingMoviesModel.fromJson(response.data);
     } on ServerFailure catch (error) {
-      throw ServerFailure(error.message);
+      rethrow ;
     }
   }
 }

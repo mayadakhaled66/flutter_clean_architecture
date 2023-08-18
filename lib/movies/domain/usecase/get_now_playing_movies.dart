@@ -4,11 +4,11 @@ import 'package:flutter_clean_archticture/movies/domain/entities/now_playing_mov
 import 'package:flutter_clean_archticture/movies/domain/repository/base_movie_repository.dart';
 
 class GetNowPlayingMoviesUseCase {
-  BaseMovieRepository baseMovieRepository;
+  final BaseMovieRepository _baseMovieRepository;
 
-  GetNowPlayingMoviesUseCase(this.baseMovieRepository);
+  GetNowPlayingMoviesUseCase(this._baseMovieRepository);
 
   Future<Either<Failure, NowPlayingMovies>> execute() async {
-    return await baseMovieRepository.getNowPlayingMovies();
+    return await _baseMovieRepository.getNowPlayingMovies();
   }
 }
