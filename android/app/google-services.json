@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "497999446278",
+    "project_id": "flutter-clean-architectu-9cffc",
+    "storage_bucket": "flutter-clean-architectu-9cffc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497999446278:android:b3772b5a51e210411fde87",
+        "android_client_info": {
+          "package_name": "com.example.flutter_clean_archticture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497999446278-3otfpsjcs8sd6jilk0m1if0o02eptho1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0VqWymd9GIg7wxf2Ub3Kqlu1u4fRhC7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497999446278-3otfpsjcs8sd6jilk0m1if0o02eptho1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

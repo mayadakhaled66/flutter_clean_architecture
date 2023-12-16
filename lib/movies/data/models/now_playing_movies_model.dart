@@ -16,7 +16,7 @@ class NowPlayingMoviesModel extends NowPlayingMovies{
   factory NowPlayingMoviesModel.fromJson(Map<String, dynamic> json) => NowPlayingMoviesModel(
     dates: Dates.fromJson(json["dates"]),
     page: json["page"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+    results: List<Result>.from(json["results"]??[].map((x) => Result.fromJson(x))),
     totalPages: json["total_pages"],
     totalResults: json["total_results"],
   );
