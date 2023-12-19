@@ -55,5 +55,14 @@
       });
     });
   </script>
+  <!-- ...other html setup. -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
+      });
+    }
+  </script>
+  <!-- ...put the script at the bottom of the enclosing body tags. -->
 </body>
 </html>
