@@ -45,6 +45,10 @@ dependencies:
   firebase_messaging: ^14.7.8
   flutter_local_notifications: ^16.2.0
   huawei_push: ^6.11.0+300
+  local_notifier: ^0.1.5
+  universal_html: ^2.2.4
+  device_info_plus: ^9.1.1
+#  firebase_core_desktop: ^1.0.2
 
 dev_dependencies:
   flutter_test:

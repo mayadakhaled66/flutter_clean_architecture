@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_archticture/core/network/api_constants.dart';
-import 'package:flutter_clean_archticture/core/notifications/local_notifications_services.dart';
+import 'package:flutter_clean_archticture/core/notifications/local_notifications/local_notifications_service_provider.dart';
 import 'package:flutter_clean_archticture/core/services/services_locator.dart';
 import 'package:flutter_clean_archticture/movies/domain/entities/now_playing_movies.dart';
 import 'package:flutter_clean_archticture/movies/presentation/view_model/movies_bloc.dart';
@@ -52,20 +52,22 @@ class _MyHomePageState extends State<MyHomePage> {
               //     EasyLoading.showError(moviesStates.errorMessage);
               //     return const SizedBox();
               // }
-              return TextButton(onPressed: (){
-                LocalNotificationsServices.showLocalNotification(
-                  notificationData: NotificationData(
-                      "new notification !!!",
-                      "helllooo",
-                      1,
-                      "channel 2",
-                      "channel 2"),
-                );
-              }, child: Text("Send"));
+              return TextButton(onPressed: sendLocalNotification, child: Text("Send"));
             },
           ),
         ),
       ),
+    );
+  }
+
+  void sendLocalNotification(){
+    LocalNotificationsServiceProvider.show(
+       NotificationData(
+          "new notification !!!",
+          "helllooo",
+          id:1,channelId:
+          "app news",
+          channelName: "app news"),
     );
   }
 

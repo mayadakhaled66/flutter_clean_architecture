@@ -40,6 +40,13 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+<script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
+      });
+    }
+  </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -56,13 +63,6 @@
     });
   </script>
   <!-- ...other html setup. -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/firebase-messaging-sw.js");
-      });
-    }
-  </script>
-  <!-- ...put the script at the bottom of the enclosing body tags. -->
+
 </body>
 </html>

@@ -1,16 +1,38 @@
 import 'dart:io';
-
+import 'package:flutter_clean_archticture/core/notifications/local_notifications/base_local_notifications_manager.dart';
+import 'package:flutter_clean_archticture/core/notifications/notification_data.dart';
 import 'package:flutter_clean_archticture/core/notifications/notifications_services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'notification_data.dart';
 
-class LocalNotificationsServices {
+class MobileLocalNotifications implements  BaseLocalNotificationManager {
 
-  static NotificationDetails _initNotificationDetails(String channelId, String channelName) {
-    AndroidNotificationDetails androidNotificationDetails =  AndroidNotificationDetails(channelId, channelName,
-       channelDescription: "", importance: Importance.high, priority: Priority.high
-        );
+  @override
+  void show({required NotificationData notificationData}) async {
+
+  NotificationDetails platformChannelSpecifics =
+        _initNotificationDetails(notificationData.channelId??"",notificationData.channelName??"");
+
+  bool isEnabled = await _isAndroidNotificationPermissionGranted();
+  if(!isEnabled){
+    await _requestNotificationPermissions();
+  }else{
+    NotificationService.flutterLocalNotificationsPlugin.show(
+        notificationData.id??0,
+        notificationData.title,
+        notificationData.body,
+        platformChannelSpecifics
+    );
+  }
+}
+
+  static NotificationDetails _initNotificationDetails(String channelId, String channelName,{List<AndroidNotificationAction>? actions}) {
+    AndroidNotificationDetails androidNotificationDetails =  AndroidNotificationDetails(
+        channelId, channelName,icon: "app_icon",
+        channelDescription: "",
+        importance: Importance.high,
+        priority: Priority.high,
+        actions: actions);
 
     DarwinNotificationDetails darwinNotificationDetails = const DarwinNotificationDetails(
         presentAlert: true,presentSound: true,presentBadge: true,presentBanner: true,
@@ -22,21 +44,6 @@ class LocalNotificationsServices {
        iOS: darwinNotificationDetails, linux: linuxNotificationDetails);
 
         return notificationDetails;
-  }
-
-  static Future<void> showLocalNotification({required NotificationData notificationData,}) async {
-
-    NotificationDetails platformChannelSpecifics =  _initNotificationDetails(notificationData.channelId,notificationData.channelName);
-
-    await _requestNotificationPermissions();
-    await _isAndroidNotificationPermissionGranted();
-
-    NotificationService.flutterLocalNotificationsPlugin.show(
-        notificationData.id,
-        notificationData.title,
-        notificationData.body,
-       platformChannelSpecifics
-    );
   }
 
   static void cancelNotificationById (int id)async{

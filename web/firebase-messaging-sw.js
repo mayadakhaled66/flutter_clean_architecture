@@ -1,5 +1,6 @@
-importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js");
+importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js");
+importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging-compat.js");
+
 const firebaseConfig = {
   apiKey: "AIzaSyDzmxbNn1CTDX1JaLfnBboOZlQCrCovtHs",
   authDomain: "flutter-clean-architectu-9cffc.firebaseapp.com",
@@ -10,11 +11,19 @@ const firebaseConfig = {
   measurementId: "G-FW8NRRVYSW"
 };
 
-firebase.initializeApp(firebaseConfig});
+firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-// Optional:
-messaging.onBackgroundMessage((message) => {
-  console.log("onBackgroundMessage", message);
+messaging.onBackgroundMessage((payload) => {
+  console.log("onBackgroundMessage", payload);
+
+//      const notificationTitle = payload.notification.title;
+//      const notificationOptions = {
+//        body: payload.notification.body,
+//      };
+//
+//      self.registration.showNotification(notificationTitle,
+//        notificationOptions);
 });
+

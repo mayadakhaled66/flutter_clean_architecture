@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_archticture/core/notifications/push_notifications/push_notifications_service_provider.dart';
+import 'package:flutter_clean_archticture/core/utilities/device_info.dart';
+import 'package:flutter_clean_archticture/firebase_options.dart';
 import 'package:flutter_clean_archticture/movies/presentation/home_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'core/notifications/push_notification_services.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'core/services/services_locator.dart';
 
   void main() async{
@@ -14,16 +20,19 @@ import 'core/services/services_locator.dart';
   }
 
   Future<void> initNotifications() async {
-    await Firebase.initializeApp(options: const FirebaseOptions(
-      apiKey: "AIzaSyDzmxbNn1CTDX1JaLfnBboOZlQCrCovtHs",
-      appId: "1:497999446278:web:aa15fe09bcbcbc2f1fde87",
-      messagingSenderId: "497999446278",
-      projectId: "flutter-clean-architectu-9cffc",
-    ),);
-    PushNotificationServices.init();
-    PushNotificationServices.handleOnBackgroundNotifications();
-    PushNotificationServices.handleOnForegroundNotifications();
-    PushNotificationServices.handleOnTerminationNotifications();
+
+    await Firebase.initializeApp(
+        options: Platform.isWindows ? DefaultFirebaseOptions.android: DefaultFirebaseOptions.currentPlatform);
+    if(!kIsWeb && Platform.isWindows){
+      await localNotifier.setup(
+        appName: 'local_notifier_example',
+        shortcutPolicy: ShortcutPolicy.requireCreate,
+      );
+    }else{
+      PushNotificationsServiceProvider.init();
+    }
+
+
   }
 
   void configLoading() {
