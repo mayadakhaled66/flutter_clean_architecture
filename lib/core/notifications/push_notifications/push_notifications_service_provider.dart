@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_clean_archticture/core/notifications/local_notifications/local_notifications_service_provider.dart';
 import 'package:flutter_clean_archticture/core/notifications/notification_data.dart';
 import 'package:flutter_clean_archticture/core/notifications/push_notifications/base_push_notification_manager.dart';
 import 'package:flutter_clean_archticture/core/notifications/push_notifications/huawei_push_notification.dart';
 import 'package:flutter_clean_archticture/core/notifications/push_notifications/firebase_push_notification.dart';
+import 'package:flutter_clean_archticture/core/services/server_socket.dart';
 import 'package:flutter_clean_archticture/core/utilities/device_info.dart';
 
 class PushNotificationsServiceProvider {
@@ -16,7 +18,10 @@ class PushNotificationsServiceProvider {
       pushNotificationManager = FirebasePushNotificationServices();
     }
     else if(!kIsWeb && Platform.isWindows){
-      //no push provided for windows
+      //no firebase push provided for windows
+
+      _handleWebPushNotification();
+
     }else{
       DeviceInfo.isHuawei().then((value) {
         if(value){
@@ -25,6 +30,16 @@ class PushNotificationsServiceProvider {
       });
     }
     return pushNotificationManager;
+  }
+
+  static void _handleWebPushNotification() {
+    ServerSocketProvider("",(data){
+      if (data != null) {
+        LocalNotificationsServiceProvider.show(
+          NotificationData(
+              data.title??"", data.body??""),);
+      }
+    });
   }
 
   static void init (){
